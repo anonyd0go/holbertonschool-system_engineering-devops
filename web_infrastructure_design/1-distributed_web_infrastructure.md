@@ -7,39 +7,38 @@ We introduce an **HAProxy load balancer** in front of two **identical LAMP appli
 ```mermaid
 %%{init: {"flowchart": {"htmlLabels": false}}}%%
 flowchart LR
-    A[User Browser]
-    B[www.foobar.com\nA record to 8.8.8.8]
+A[User Browser]
+B[www.foobar.com\nA record to 8.8.8.8]
+LB[HAProxy Load Balancer\n8.8.8.8]
 
-    LB[HAProxy Load Balancer\n(8.8.8.8)]
+subgraph "App Server 1 (10.0.0.1)"
+    W1[Nginx Web Server]
+    A1[App Runtime\n(PHP-FPM, uWSGI)]
+    DB1[MySQL Database\nPrimary]
+end
 
-    subgraph S1 [App Server 1 (10.0.0.1)]
-        W1[Nginx Web Server]
-        A1[App Runtime\n(PHP-FPM, uWSGI)]
-        DB1[MySQL Database\nPrimary]
-    end
+subgraph "App Server 2 (10.0.0.2)"
+    W2[Nginx Web Server]
+    A2[App Runtime\n(PHP-FPM, uWSGI)]
+    DB2[MySQL Database\nReplica]
+end
 
-    subgraph S2 [App Server 2 (10.0.0.2)]
-        W2[Nginx Web Server]
-        A2[App Runtime\n(PHP-FPM, uWSGI)]
-        DB2[MySQL Database\nReplica]
-    end
+A --> B
+B --> LB
+LB --> W1
+LB --> W2
 
-    A --> B
-    B --> LB
-    LB --> W1
-    LB --> W2
+W1 --> A1
+A1 --> DB1
+DB1 --> DB2
 
-    W1 --> A1
-    A1 --> DB1
-    DB1 --> DB2
+W2 --> A2
+A2 --> DB2
 
-    W2 --> A2
-    A2 --> DB2
-
-    A1 --> W1
-    A2 --> W2
-    W1 --> A
-    W2 --> A
+A1 --> W1
+A2 --> W2
+W1 --> A
+W2 --> A
 
 ```
 
