@@ -5,47 +5,41 @@ We introduce an **HAProxy load balancer** in front of two **identical LAMP appli
 ---
 
 ```mermaid
-%%{init:{"flowchart":{"htmlLabels":false}}}%%
+%%{init: {"flowchart": {"htmlLabels": false}}}%%
 flowchart LR
-    subgraph Internet
-      A[User Browser]
+    A[User Browser]
+    B[www.foobar.com\n(A record → 8.8.8.8)]
+
+    LB[HAProxy Load Balancer\n(Load Balancer on 8.8.8.8)]
+
+    subgraph S1 [App Server 1 (10.0.0.1)]
+        W1[Nginx Web Server]
+        A1[App Server Runtime\n(PHP-FPM, uWSGI)]
+        DB1[MySQL Database\nPrimary]
     end
 
-    subgraph DNS
-      B[www.foobar.com\nA record → 8.8.8.8]
+    subgraph S2 [App Server 2 (10.0.0.2)]
+        W2[Nginx Web Server]
+        A2[App Server Runtime\n(PHP-FPM, uWSGI)]
+        DB2[MySQL Database\nReplica]
     end
 
-    subgraph LB[Load Balancer\n(HAProxy)]
-      direction TB
-      L1[listen http\n  bind *:80]
-      L2[balance roundrobin\n  server srv1 10.0.0.1:80 check\n  server srv2 10.0.0.2:80 check]
-    end
+    A --> B
+    B --> LB
+    LB --> W1
+    LB --> W2
 
-    subgraph Server1["App Server 1\n(10.0.0.1)"]
-      W1["Nginx\nPort 80"]
-      A1["App Runtime\n(PHP‑FPM, uWSGI)"]
-      DB1["MySQL Primary"]
-    end
+    W1 --> A1
+    A1 --> DB1
+    DB1 --> DB2
 
-    subgraph Server2["App Server 2\n(10.0.0.2)"]
-      W2["Nginx\nPort 80"]
-      A2["App Runtime\n(PHP‑FPM, uWSGI)"]
-      DB2["MySQL Replica"]
-    end
+    W2 --> A2
+    A2 --> DB2
 
-    A -- "1. DNS Lookup" --> B
-    B -- "2. Connect to LB:80" --> L1
-    L1 -- "3. Distribute Requests" --> W1
-    L1 -- "3. Distribute Requests" --> W2
-    W1 -- "4. Static/Dynamic?" --> A1
-    W2 -- "4. Static/Dynamic?" --> A2
-    A1 -- "5. Read/Write → DB" --> DB1
-    A2 -- "5. Read only → DB2" --> DB2
-    DB1 -- "6. Replication" --> DB2
-    A1 -- "7. Response" --> W1
-    A2 -- "7. Response" --> W2
-    W1 -- "8. HTTP Response" --> A
-    W2 -- "8. HTTP Response" --> A
+    A1 --> W1
+    A2 --> W2
+    W1 --> A
+    W2 --> A
 ```
 
 ---
