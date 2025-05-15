@@ -35,7 +35,7 @@ flowchart LR
 ### Domain and DNS
 
 * **Domain Name (foobar.com):** Provides a human‑readable address mapped to an IP. It’s registered with a registrar and managed via DNS.
-* **www Subdomain (`www.foobar.com`):** A third‑level domain (hostname) configured with an **A record** pointing “www” to 8.8.8.8.
+* **www Subdomain `www.foobar.com`:** A third‑level domain (hostname) configured with an **A record** pointing “www” to 8.8.8.8.
 
 ### Server Components
 
@@ -46,7 +46,7 @@ flowchart LR
 ### Communication Protocol
 
 * **DNS Lookup:** The browser queries DNS for the A record of “www.foobar.com” → 8.8.8.8.
-* **TCP/IP:** A TCP connection is established between the client and server on port 80 (HTTP) ([Medium][6]).
+* **TCP/IP:** A TCP connection is established between the client and server on port 80 (HTTP).
 * **HTTP:** The browser sends an HTTP request (e.g., `GET / HTTP/1.1`), and the server responds with status codes (e.g., 200 OK) and content.
 
 ## Roles Explained
