@@ -5,24 +5,24 @@ A user opens their browser, types **www.foobar.com**, and presses Enter. The bro
 ## Infrastructure Design
 
 ```mermaid
+%%{init:{"flowchart":{"htmlLabels":false}}}%%
 flowchart LR
     subgraph Internet
-        A[User Browser]
+      A[User Browser]
     end
 
     subgraph DNS
-        B[www.foobar.com<br/>(A record → 8.8.8.8)]
+      B[www.foobar.com\nA record to 8.8.8.8]
     end
 
-    subgraph Server[Single Server<br/>(Linux, IP 8.8.8.8)]
-        direction TB
-        C[Nginx Web Server<br/>Port 80/443]
-        D[Application Server<br/>(PHP‑FPM, uWSGI, etc.)]
-        E[MySQL Database]
+    subgraph Server["Single Server (Linux, IP 8.8.8.8)"]
+      C["Nginx Web Server\nPorts 80/443"]
+      D["Application Server\n(PHP‑FPM, uWSGI, etc.)"]
+      E["MySQL Database"]
     end
 
     A -- "1. DNS Lookup" --> B
-    B -- "2. Resolve to 8.8.8.8" --> C
+    B -- "2. Resolved to 8.8.8.8" --> C
     A -- "3. HTTP Request" --> C
     C -- "4. Static Assets" --> A
     C -- "5. Proxy Dynamic" --> D
