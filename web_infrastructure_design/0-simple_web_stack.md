@@ -16,8 +16,8 @@ flowchart LR
     end
 
     subgraph Server["Single Server (Linux, IP 8.8.8.8)"]
-      C["Nginx Web Server\nPorts 80/443"]
-      D["Application Server\n(PHP‑FPM, uWSGI, etc.)"]
+      C["Nginx Web Server<br>Ports 80/443"]
+      D["Application Server<br>(PHP‑FPM, uWSGI, etc.)"]
       E["MySQL Database"]
     end
 
