@@ -12,7 +12,7 @@ flowchart LR
     end
 
     subgraph DNS
-      B[www.foobar.com\nA record to 8.8.8.8]
+      B["www.foobar.com" \nA record to 8.8.8.8]
     end
 
     subgraph Server["Single Server (Linux, IP 8.8.8.8)"]
