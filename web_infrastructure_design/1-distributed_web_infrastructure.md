@@ -8,19 +8,19 @@ We introduce an **HAProxy load balancer** in front of two **identical LAMP appli
 %%{init: {"flowchart": {"htmlLabels": false}}}%%
 flowchart LR
 A["User Browser"]
-B["www.foobar.com\nA record to 8.8.8.8"]
-LB["HAProxy Load Balancer\n8.8.8.8"]
+B["foobar.com<br>A record to 8.8.8.8"]
+LB["HAProxy Load Balancer<br>8.8.8.8"]
 
 subgraph "App Server 1 (10.0.0.1)"
     W1["Nginx Web Server"]
-    A1["App Runtime\n(PHP-FPM, uWSGI)"]
-    DB1["MySQL Database\nPrimary"]
+    A1["App Runtime<br>(PHP-FPM, uWSGI)"]
+    DB1["MySQL Database<br>Primary"]
 end
 
 subgraph "App Server 2 (10.0.0.2)"
     W2["Nginx Web Server"]
-    A2["App Runtime\n(PHP-FPM, uWSGI)"]
-    DB2["MySQL Database\nReplica"]
+    A2["App Runtime<br>(PHP-FPM, uWSGI)"]
+    DB2["MySQL Database<br>Replica"]
 end
 
 A --> B
