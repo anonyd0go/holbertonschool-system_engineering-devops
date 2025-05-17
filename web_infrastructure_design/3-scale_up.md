@@ -37,6 +37,22 @@ flowchart TD
   App --> M_App
   DB --> M_DB
 ```
+### Key Details
+
+* **HAProxy Active‑Active**
+
+  * Uses **Keepalived** (or similar) to share a floating VIP between LB₁ and LB₂. Both serve traffic simultaneously, providing capacity and resilience; failure of one still leaves the VIP active on the other.
+
+* **Flow Separation**
+
+  * **TLS Termination** at the web tier (or LB tier) ensures encrypted traffic from clients arrives decrypted in a hardened, single‑purpose web server.
+  * **Nginx on Web Server** handles static files, caching, and proxies dynamic routes.
+  * **App Server** exclusively processes backend logic and database queries.
+  * **DB Server** runs MySQL with optimized I/O and storage parameters.
+
+* **Monitoring Agents**
+
+  * Installed on each node to collect logs, metrics (CPU, memory, QPS), and traces. Agents push data to your monitoring SaaS (e.g., Sumo Logic) over a secure channel, enabling alerting and dashboards.
 
 ### Why we added each element
 
@@ -60,23 +76,3 @@ flowchart TD
 
    * **Reason:** This is the **database server**. By adding it as a separate node, you’ve split each LAMP component onto its own machine, eliminating resource contention and simplifying scaling per tier.
 
-### Key Details
-
-* **HAProxy Active‑Active**
-
-  * Uses **Keepalived** (or similar) to share a floating VIP between LB₁ and LB₂. Both serve traffic simultaneously, providing capacity and resilience; failure of one still leaves the VIP active on the other.
-
-* **Flow Separation**
-
-  * **TLS Termination** at the web tier (or LB tier) ensures encrypted traffic from clients arrives decrypted in a hardened, single‑purpose web server.
-  * **Nginx on Web Server** handles static files, caching, and proxies dynamic routes.
-  * **App Server** exclusively processes backend logic and database queries.
-  * **DB Server** runs MySQL with optimized I/O and storage parameters.
-
-* **Monitoring Agents**
-
-  * Installed on each node to collect logs, metrics (CPU, memory, QPS), and traces. Agents push data to your monitoring SaaS (e.g., Sumo Logic) over a secure channel, enabling alerting and dashboards.
-
----
-
-This architecture cleanly separates concerns, removes single‑points‑of‑failure at both the load‑balancer and tier levels, and enables independent scaling of web, app, and database servers.
