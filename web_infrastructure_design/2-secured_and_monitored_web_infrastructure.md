@@ -7,7 +7,7 @@ We’ve enhanced the existing three‑server LAMP infrastructure by introducing 
 %%{init: {"flowchart": {"htmlLabels": false}}}%%
 flowchart LR
   %% Internet to Edge Firewall
-  A["User Browser"] -->|HTTPS (443)| FW1["⛨ Edge Firewall"]
+  A["User Browser"] -->|"HTTPS (443)"| FW1["⛨ Edge Firewall"]
   
   %% Edge Firewall to Load Balancer
   FW1 -->|HTTPS (443)<br/>SSL Cert Installed| LB["🔀 HAProxy Load Balancer"]
