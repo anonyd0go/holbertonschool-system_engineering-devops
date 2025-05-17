@@ -10,7 +10,7 @@ flowchart LR
   A["User Browser"] -->|"HTTPS (443)"| FW1["⛨ Edge Firewall"]
   
   %% Edge Firewall to Load Balancer
-  FW1 -->|HTTPS (443)<br/>SSL Cert Installed| LB["🔀 HAProxy Load Balancer"]
+  FW1 -->|"HTTPS (443)<br/>SSL Cert Installed"| LB["🔀 HAProxy Load Balancer"]
   
   %% Load Balancer to Internal Firewall
   LB --> FW2["⛨ Internal Firewall"]
@@ -28,7 +28,7 @@ flowchart LR
   FW3 --> DB2["MySQL Replica"]
   
   %% Replication Link
-  DB1 -.->|Async Replication| DB2
+  DB1 -.->|"Async Replication"| DB2
   
   %% Monitoring Agents
   subgraph Monitors
