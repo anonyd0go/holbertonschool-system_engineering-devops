@@ -7,8 +7,8 @@ This file defines a simple web application following the `LAMP` style design.  I
 ## [Distributed web infrastructure](/web_infrastructure_design/1-distributed_web_infrastructure.md)
 This document details the adition of load-balancers, a Primary-Replica database set up, and a description of the concepts associated with each.  It also explains the risks/vulnerabilities that are still exposed in this structure.
 
-## Secured and Monitered Web Infrastructure
+## [Secured and Monitered Web Infrastructure](./web_infrastructure_design/2-secured_and_monitored_web_infrastructure.md)
 This documents adds security measures and monitoring systems to the `LAMP` stack from the previous design.
 
-## Scale Up
-Finally we add horizontal scalability to the project
+## [Scale Up](./web_infrastructure_design/3-scale_up.md)
+Finally we add horizontal scalability to the project.
